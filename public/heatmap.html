@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title>Create a heatmap layer</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.42.2/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.42.2/mapbox-gl.css' rel='stylesheet' />
+    <style>
+        body { margin:0; padding:0; }
+        #map { position:absolute; top:0; bottom:0; width:100%; }
+    </style>
+</head>
+<body>
+
+
+<div id='map'></div>
+
+<script>
+mapboxgl.accessToken = 'pk.eyJ1IjoicmVuZW1leWUiLCJhIjoiNDNVQnFlSSJ9.AVMZSz8I4zp7qYWfNhHmAg';
+window.map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/dark-v9',
+    center: [11.626989567704186, 51.41628902880487],
+    zoom: 5.389248295712722
+});
+
+map.on('load', function() {
+    //Add a geojson point source.
+    //Heatmap layers also work with a vector tile source.
+    map.addSource('wlan_tracks', {
+        "type": "geojson",
+        "data": "/connectivity_2016_11.geojson"
+    });
+    map.addSource('wlan', {
+        "type": "geojson",
+        "data": "/40117905.geojson"
+    });
+
+    map.addLayer({
+      "id": "wlan-tracks",
+      "type": "line",
+      "source": "wlan_tracks",
+      "paint": {
+        "line-color": {
+          "property": "all_stability",
+          "type": "interval",
+          "stops": [
+            [0, 'red'],
+            [0.01, 'yellow'],
+            [0.8, 'green'],
+          ]
+        }
+      }
+    }, 'waterway-label');
+
+    // "all_stability": 0.954,
+    // "all_measurements": 5089,
+    // "all,no4g_stability": 0.976,
+    // "all,no4g_measurements": 2667,
+    // "t-mobile_stability": 0.928,
+    // "t-mobile_measurements": 645,
+    // "t-mobile,no4g_stability": 0.973,
+    // "t-mobile,no4g_measurements": 374,
+    // "vodafone_stability": 0.958,
+    // "vodafone_measurements": 3744,
+    // "vodafone,no4g_stability": 0.985,
+    // "vodafone,no4g_measurements": 1887,
+    // "e-plus_stability": 0.941,
+    // "e-plus_measurements": 355,
+    // "e-plus,no4g_stability": 0.929,
+    // "e-plus,no4g_measurements": 288,
+    // "o2_stability": 0.972,
+    // "o2_measurements": 344,
+    // "o2,no4g_stability": 0.947,
+    // "o2,no4g_measurements": 117
+
+    // map.addLayer({
+    //     "id": "wlan-heat",
+    //     "type": "heatmap",
+    //     "source": "wlan",
+    //     "maxzoom": 9,
+    //     "paint": {
+    //         //Increase the heatmap weight based on frequency and property latenz
+    //         "heatmap-weight": {
+    //             "property": "latenz",
+    //             "type": "exponential",
+    //             "stops": [
+    //                 [0, 100000],
+    //                 [100, 1],
+    //                 [5000, 1]
+    //             ]
+    //         },
+    //         //Increase the heatmap color weight weight by zoom level
+    //         //heatmap-ntensity is a multiplier on top of heatmap-weight
+    //         // "heatmap-intensity": {
+    //         //     "stops": [
+    //         //         [0, 1],
+    //         //         [9, 3]
+    //         //     ]
+    //         // },
+    //         //Color ramp for heatmap.  Domain is 0 (low) to 1 (high).
+    //         //Begin color ramp at 0-stop with a 0-transparancy color
+    //         //to create a blur-like effect.
+    //         // "heatmap-color": [
+    //         //     "interpolate",
+    //         //     ["linear"],
+    //         //     ["heatmap-density"],
+    //         //     // 0, "rgba(33,102,172,0)",
+    //         //     // 0.2, "rgb(103,169,207)",
+    //         //     // 0.4, "rgb(209,229,240)",
+    //         //     // 0.6, "rgb(253,219,199)",
+    //         //     // 0.8, "rgb(239,138,98)",
+    //         //     // 1, "rgb(178,24,43)"
+    //         //     0, "rgba(0,255,0,0)",
+    //         //     1, "rgba(255,0,0,1)"
+    //         // ],
+    //         //Adjust the heatmap radius by zoom level
+    //         "heatmap-radius": {
+    //             "stops": [
+    //                 [0, 2],
+    //                 [20, 10]
+    //             ]
+    //         },
+    //         // //Transition from heatmap to circle layer by zoom level
+    //         // // "heatmap-opacity": {
+    //         // //     "default": 1,
+    //         // //     "stops": [
+    //         // //         [7, 1],
+    //         // //         [, 0]
+    //         // //     ]
+    //         // // },
+    //     }
+    // }, 'waterway-label');
+    //
+    // map.addLayer({
+    //     "id": "wlan-point",
+    //     "type": "circle",
+    //     "source": "wlan",
+    //     "minzoom": 7,
+    //     "paint": {
+    //         //Size circle raidus by earthquake magnitude and zoom level
+    //         "circle-radius": 5,
+    //         // "circle-radius": {
+    //
+    //             // "property": "latenz",
+    //             // "type": "exponential",
+    //             // "stops": [
+    //             //     [{ zoom: 7, value: 1 }, 1],
+    //             //     [{ zoom: 7, value: 6 }, 4],
+    //             //     [{ zoom: 16, value: 1 }, 5],
+    //             //     [{ zoom: 16, value: 6 }, 50],
+    //             // ]
+    //         // },
+    //         //Color circle by earthquake magnitude
+    //         "circle-color": {
+    //             "property": "latenz",
+    //             "type": "exponential",
+    //             "stops": [
+    //                 [100, "rgba(33,102,172,0)"],
+    //                 [200, "rgb(103,169,207)"],
+    //                 [300, "rgb(209,229,240)"],
+    //                 [400, "rgb(253,219,199)"],
+    //                 [500, "rgb(239,138,98)"],
+    //                 [6000, "rgb(178,24,43)"]
+    //             ]
+    //         },
+    //         "circle-stroke-color": "white",
+    //         "circle-stroke-width": 1,
+    //         //Transition from heatmap to circle layer by zoom level
+    //         "circle-opacity": {
+    //             "stops": [
+    //                 [7, 0],
+    //                 [8, 1]
+    //             ]
+    //         }
+    //     }
+    // }, 'waterway-label');
+});
+</script>
+
+</body>
+</html>

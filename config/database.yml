@@ -1,0 +1,18 @@
+default: &default
+  adapter:            postgis
+  pool: 5
+  timeout: 5000
+  host:               localhost
+  schema_search_path: public
+
+development:
+  <<: *default
+  database: 'internet_timer_development'
+
+test:
+  <<: *default
+  database: 'internet_timer_test'
+
+production:
+  <<: *default
+  url: <%= ENV.fetch("DATABASE_URL", "").gsub(/postgres/, 'postgis') %>

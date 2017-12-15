@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Wkb geometry:</strong>
+  <%= @track.wkb_geometry %>
+</p>
+
+<p>
+  <strong>All stability:</strong>
+  <%= @track.all_stability %>
+</p>
+
+<p>
+  <strong>All measurements:</strong>
+  <%= @track.all_measurements %>
+</p>
+
+<%= link_to 'Edit', edit_track_path(@track) %> |
+<%= link_to 'Back', tracks_path %>

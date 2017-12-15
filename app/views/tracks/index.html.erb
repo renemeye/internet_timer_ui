@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Tracks</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Wkb geometry</th>
+      <th>All stability</th>
+      <th>All measurements</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @tracks.each do |track| %>
+      <tr>
+        <td><%= track.wkb_geometry %></td>
+        <td><%= track.all_stability %></td>
+        <td><%= track.all_measurements %></td>
+        <td><%= link_to 'Show', track %></td>
+        <td><%= link_to 'Edit', edit_track_path(track) %></td>
+        <td><%= link_to 'Destroy', track, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Track', new_track_path %>

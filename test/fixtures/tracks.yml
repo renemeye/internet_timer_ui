@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  wkb_geometry: 
+  all_stability: 1.5
+  all_measurements: 1
+
+two:
+  wkb_geometry: 
+  all_stability: 1.5
+  all_measurements: 1

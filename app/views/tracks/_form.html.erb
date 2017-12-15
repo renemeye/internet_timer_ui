@@ -1,0 +1,32 @@
+<%= form_with(model: track, local: true) do |form| %>
+  <% if track.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(track.errors.count, "error") %> prohibited this track from being saved:</h2>
+
+      <ul>
+      <% track.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :wkb_geometry %>
+    <%= form.text_field :wkb_geometry, id: :track_wkb_geometry %>
+  </div>
+
+  <div class="field">
+    <%= form.label :all_stability %>
+    <%= form.text_field :all_stability, id: :track_all_stability %>
+  </div>
+
+  <div class="field">
+    <%= form.label :all_measurements %>
+    <%= form.number_field :all_measurements, id: :track_all_measurements %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
